@@ -1,6 +1,9 @@
 package kodea;
 import java.sql.*;
 import java.util.Calendar;
+
+import hasierakoUi.ErroreMezua;
+
 import java.*;
 import java.util.*;
 
@@ -45,6 +48,9 @@ public class MySQL {
 			java.util.Date d=new java.util.Date();
 			if (!rs.next()){
 				s.executeUpdate("insert into Bezeroa (kodea, pasahitza, noiztik, kreditua, egoera) values ('"+pKodea+"','"+pPasahitza+"','"+new java.sql.Date(d.getTime())+"',0.0,'Alta');");
+			}
+			else{
+				new ErroreMezua("Bezeroa sortua dago jadanik");
 			}
 		}
 		catch(Exception e){
