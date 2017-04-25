@@ -52,11 +52,11 @@ public class AdminLeihoa {
 		
 		JButton btnNewButton = new JButton("Bezero berria sartu");
 		btnNewButton.setAction(action);
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new BezeroBerria().main();
-			}
-		});
+//		btnNewButton.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				new BezeroBerria().main(null);
+//			}
+//		});
 		btnNewButton.setBounds(36, 50, 226, 25);
 		panel.add(btnNewButton);
 		
@@ -83,10 +83,11 @@ public class AdminLeihoa {
 
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
-			putValue(NAME, "SwingAction");
+			putValue(NAME, "Bezero berria sartu");
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
+			new BezeroBerria().main(null);
 		}
 	}
 }

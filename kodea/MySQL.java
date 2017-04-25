@@ -1,14 +1,28 @@
 package kodea;
 import java.sql.*;
+import java.util.Calendar;
 import java.*;
+import java.util.*;
 
 public class MySQL {
 	
 	private static Connection konexioa;
+	private static MySQL nireSQL;
+	
+	private MySQL(){
+		
+	}
+	public static MySQL getMySQL(){
+		if(nireSQL==null){
+			nireSQL = new MySQL();
+		}
+		return nireSQL;
+	}
 	
 	public void mySQLKonektatu(){
         try {
-            konexioa = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + "root");
+            konexioa = DriverManager.getConnection("jdbc:mysql://localhost/enpresa" , "root",null);
+            
         }
         catch(Exception e){
         	e.printStackTrace();
@@ -27,9 +41,10 @@ public class MySQL {
 		this.mySQLKonektatu();
 		try{
 			Statement s = konexioa.createStatement(); 
-			ResultSet rs = s.executeQuery ("select * from bezeroa where kodea=" + pKodea);
-			if (rs==null){
-				s.executeQuery("insert into Bezeroa(kodea, pasahitza, noiztik, kred, egoera) values ("+pKodea+","+pPasahitza+",25/04/2017,0,Alta)");
+			ResultSet rs = s.executeQuery ("select * from Bezeroa where kodea='" +pKodea+"';");
+			java.util.Date d=new java.util.Date();
+			if (!rs.next()){
+				s.executeUpdate("insert into Bezeroa (kodea, pasahitza, noiztik, kreditua, egoera) values ('"+pKodea+"','"+pPasahitza+"','"+new java.sql.Date(d.getTime())+"',0.0,'Alta');");
 			}
 		}
 		catch(Exception e){
