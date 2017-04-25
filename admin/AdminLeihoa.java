@@ -7,10 +7,13 @@ import java.awt.BorderLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 public class AdminLeihoa {
 
 	private JFrame frame;
+	private final Action action = new SwingAction();
 
 	/**
 	 * Launch the application.
@@ -48,8 +51,10 @@ public class AdminLeihoa {
 		panel.setLayout(null);
 		
 		JButton btnNewButton = new JButton("Bezero berria sartu");
+		btnNewButton.setAction(action);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new BezeroBerria().main();
 			}
 		});
 		btnNewButton.setBounds(36, 50, 226, 25);
@@ -76,4 +81,12 @@ public class AdminLeihoa {
 		panel.add(btnNewButton_5);
 	}
 
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
+	}
 }
