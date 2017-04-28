@@ -57,6 +57,27 @@ public class MySQL {
 			e.printStackTrace();
 		}
 	}
-	
+	public void bezeroEgoeraAldatu(String pKodea){
+		this.mySQLKonektatu();
+		try{
+			Statement s = konexioa.createStatement(); 
+			ResultSet rs = s.executeQuery ("select Egoera from Bezeroa where kodea='" +pKodea+"';");
+			java.util.Date d=new java.util.Date();
+			if (!rs.next()){
+				String egoera=rs.getString(1);
+				if(egoera="Alta"){
+					s.executeUpdate("update Bezeroa set Egoera='Baja' where kodea='" +pKodea+"';");
+				}
+				else{
+					s.executeUpdate("update Bezeroa set Egoera='Alta' where kodea='" +pKodea+"';");
+				}
+			}
+			else{
+				new ErroreMezua("Bezeroa sortua dago jadanik");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }
-
