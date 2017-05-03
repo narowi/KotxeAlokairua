@@ -6,15 +6,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JTextField;
+
+import kodea.MySQL;
+
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 
-public class ErabiltzaileEgoeraAldatu {
+public class BezeroEgoeraAldatu {
 
-	private JFrame frame;
+	private JFrame frmBezeroarenEgoeraAldatu;
 	private JTextField textField;
 	private final Action action = new SwingAction();
 
@@ -25,8 +28,8 @@ public class ErabiltzaileEgoeraAldatu {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ErabiltzaileEgoeraAldatu window = new ErabiltzaileEgoeraAldatu();
-					window.frame.setVisible(true);
+					BezeroEgoeraAldatu window = new BezeroEgoeraAldatu();
+					window.frmBezeroarenEgoeraAldatu.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -37,7 +40,7 @@ public class ErabiltzaileEgoeraAldatu {
 	/**
 	 * Create the application.
 	 */
-	public ErabiltzaileEgoeraAldatu() {
+	public BezeroEgoeraAldatu() {
 		initialize();
 	}
 
@@ -45,12 +48,13 @@ public class ErabiltzaileEgoeraAldatu {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 151);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmBezeroarenEgoeraAldatu = new JFrame();
+		frmBezeroarenEgoeraAldatu.setTitle("Bezeroaren egoera aldatu");
+		frmBezeroarenEgoeraAldatu.setBounds(100, 100, 450, 151);
+		frmBezeroarenEgoeraAldatu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		frmBezeroarenEgoeraAldatu.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		JLabel lblBezerokodea = new JLabel("BezeroKodea:");
@@ -64,7 +68,7 @@ public class ErabiltzaileEgoeraAldatu {
 		
 		JButton btnAldatu = new JButton("Aldatu");
 		btnAldatu.setAction(action);
-		btnAldatu.setBounds(301, 66, 97, 25);
+		btnAldatu.setBounds(285, 66, 113, 25);
 		panel.add(btnAldatu);
 	}
 
@@ -74,6 +78,8 @@ public class ErabiltzaileEgoeraAldatu {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
+			MySQL.getMySQL().bezeroEgoeraAldatu(textField.getText());
+			frmBezeroarenEgoeraAldatu.dispose();
 		}
 	}
 }

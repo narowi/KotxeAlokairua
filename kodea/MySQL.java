@@ -2,6 +2,8 @@ package kodea;
 import java.sql.*;
 import java.util.Calendar;
 
+import admin.DatubaseaInprimatu;
+import bezeroa.KrediturikGabe;
 import hasierakoUi.ErroreMezua;
 
 import java.*;
@@ -39,6 +41,18 @@ public class MySQL {
 			e.printStackTrace();	
 		}
 	}
+	public boolean loginKonprobaketa(String erabiltzaile,String pasahitza){
+		this.mySQLKonektatu();
+		try{
+			Statement s=konexioa.createStatement();
+			ResultSet rs=s.executeQuery("select * from Bezeroa where kodea='"+erabiltzaile+"'and pasahitza='"+pasahitza+"';");
+			return rs.next();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	public void bezeroBerria(String pKodea , String pPasahitza){
 		this.mySQLKonektatu();
@@ -57,6 +71,7 @@ public class MySQL {
 			e.printStackTrace();
 		}
 	}
+	
 	public void bezeroEgoeraAldatu(String pKodea){
 		this.mySQLKonektatu();
 		try{
@@ -64,7 +79,7 @@ public class MySQL {
 			ResultSet rs = s.executeQuery ("select Egoera from Bezeroa where kodea='" +pKodea+"';");
 			if (rs.next()){
 				String egoera=rs.getString(1);
-				if(egoera=="Alta"){
+				if(egoera.equals("Alta")){
 					s.executeUpdate("update Bezeroa set Egoera='Baja' where kodea='" +pKodea+"';");
 				}
 				else{
@@ -79,14 +94,14 @@ public class MySQL {
 			e.printStackTrace();
 		}
 	}
-	public void kotxeBerria(String pMatrikula , String pMarka,float prezioa,String pEgoera,int pAteKopurua,boolean aireEgokitua,float pDeposituTam,String pKarbuMota){
+	public void kotxeBerria(String pMatrikula , String pMarka,float prezioa,int pAteKopurua,String aireEgokitua,float pDeposituTam,String pKarbuMota){
 		this.mySQLKonektatu();
 		try{
 			Statement s = konexioa.createStatement(); 
 			ResultSet rs = s.executeQuery ("select * from Kotxe where matrikula='" +pMatrikula+"';");
 			java.util.Date d=new java.util.Date();
 			if (!rs.next()){
-				s.executeUpdate("insert into kotxe values ('"+pMatrikula+"','"+pMarka+"','"+prezioa+",'"+pEgoera+"',"+pAteKopurua+","+aireEgokitua+","+pDeposituTam+",'"+pKarbuMota+"',"+pDeposituTam+",'"+new java.sql.Date(d.getTime())+"');");
+				s.executeUpdate("insert into kotxe values ('"+pMatrikula+"','"+pMarka+"',"+prezioa+",'Libre',"+pAteKopurua+",'"+new java.sql.Date(d.getTime())+"',"+pDeposituTam+","+pDeposituTam+",'"+pKarbuMota+"','"+aireEgokitua+"');");
 			}
 			else{
 				new ErroreMezua("Kotxea sortua dago jadanik");
@@ -100,14 +115,14 @@ public class MySQL {
 		this.mySQLKonektatu();
 		try{
 			Statement s = konexioa.createStatement(); 
-			ResultSet rs = s.executeQuery ("select Egoera from Kotxe where matrikula='" +pMatrikula+"';");
+			ResultSet rs = s.executeQuery ("select egoera from Kotxe where matrikula='" +pMatrikula+"';");
 			if (rs.next()){
 				String egoera=rs.getString(1);
-				if(egoera=="Libre"){
+				if(egoera.equals("Libre")){
 					s.executeUpdate("delete from kotxe where matrikula='"+pMatrikula+"';");
 				}
-				else if(egoera=="Alokatuta"){
-					s.executeUpdate("update Kotxea set Egoera='Deskatalogatuta' where matrikula='" +pMatrikula+"';");
+				else if(egoera.equals("Alokatuta")){
+					s.executeUpdate("update kotxe set Egoera='Deskatalogatuta' where matrikula='" +pMatrikula+"';");
 				}
 			}
 			else{
@@ -122,9 +137,11 @@ public class MySQL {
 		this.mySQLKonektatu();
 		try{
 			Statement s = konexioa.createStatement(); 
-			ResultSet rs = s.executeQuery ("select * from Kotxea where karbKop<Dep-Tam*0,20;");
+			ResultSet rs = s.executeQuery ("select * from kotxe where karbKop<DeposTam*0.20;");
 			while(rs.next()){
-				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getFloat(3)+" "+rs.getString(4)+" "+rs.getInt(5)+" "+rs.getBoolean(6)+" "+rs.getFloat(7)+" "+rs.getDate(8)+" "+rs.getFloat(9)+" "+rs.getString(10));
+				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getFloat(3)+" "+rs.getString(4)+" "+rs.getInt(5)+" "+rs.getDate(6)+" "+rs.getFloat(7)+" "+rs.getFloat(8)+" "+rs.getString(9)+" "+rs.getString(10));
+				DatubaseaInprimatu datuBase=new DatubaseaInprimatu();
+				datuBase.sartu(rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10));
 			}
 			
 		}
@@ -136,7 +153,7 @@ public class MySQL {
 		this.mySQLKonektatu();
 		try{
 			Statement s = konexioa.createStatement(); 
-			ResultSet rs = s.executeQuery ("select Dep-Tam from Kotxea where matrikula='" +pMatrikula+"';");
+			ResultSet rs = s.executeQuery ("select deposTam from kotxe where matrikula='" +pMatrikula+"';");
 			if(rs.next()){
 				s.executeUpdate("update kotxe set karbKop="+rs.getFloat(1)+"where matrikula='"+pMatrikula+"';");
 			}
@@ -200,10 +217,15 @@ public class MySQL {
 		try{
 			Statement s = konexioa.createStatement(); 
 			java.util.Date d=new java.util.Date();
-			ResultSet rs = s.executeQuery ("select prezioa,kreditua,matrikula from Alokatu A,KarbMota KM,Kotxe K where A.kodea='" +pKodea+"' and KM.izena=K.izena and A.noiztik<="+new java.sql.Date(d.getTime())+"A.itzuli>="+new java.sql.Date(d.getTime())+";");
+			ResultSet rs = s.executeQuery ("select prezioa,kreditua,deposTam,karbKop,matrikula from Alokatu A,KarbMota KM,Kotxe K where A.kodea='" +pKodea+"' and KM.izena=K.izena and A.noiztik<="+new java.sql.Date(d.getTime())+"A.itzuli>="+new java.sql.Date(d.getTime())+";");
 		    float prezioa=rs.getFloat(1);
 		    float kreditua=rs.getFloat(2);
-		    String matrikula=rs.getString(3);
+		    float tamaina=rs.getFloat(3);
+		    float depositua=rs.getFloat(4);
+		    String matrikula=rs.getString(5);
+		    if(tamaina<pLitro+depositua){
+		    	pLitro=tamaina-depositua;
+		    }
 			if (pLitro*prezioa<=kreditua){
 				this.kotxeaGasolindegiraEraman(matrikula);
 				kreditua=kreditua-pLitro*prezioa;
@@ -211,13 +233,69 @@ public class MySQL {
 				}
 				
 			else{
-				new ErroreMezua("Ez dago kreditu nahikorik hori");
+				new ErroreMezua("Ez dago kreditu nahikorik hori egiteko");
 			}
 	}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 	}
+	public void kotxeaAlokatu(String pKodea,String pMatrikula,int pEgunak){
+		this.mySQLKonektatu();
+		java.util.Date d=new java.util.Date();
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(d);
+		calendar.add(calendar.DAY_OF_YEAR, pEgunak);
+		java.util.Date dItzuli=calendar.getTime();
+		try{
+			Statement s = konexioa.createStatement(); 
+			ResultSet rs= s.executeQuery("select prezio from kotxe K,bezeroa where K.egoera='Libre' and kreditua>=prezio*"+pEgunak+";");
+			if(rs.next()){
+				s.executeUpdate("insert alokatu values('"+pMatrikula+"','"+pKodea+"','"+new java.sql.Date(d.getTime())+"',"+pEgunak+",'"+new java.sql.Date(dItzuli.getTime())+"');");
+				s.executeUpdate("update kotxe set egoera='Alokatuta' where matrikula='"+pMatrikula+"';");
+				s.executeUpdate("update bezeroa set kreditua=kreditua-"+rs.getInt(1)*pEgunak+";");
+			}
+			else{
+				new ErroreMezua("Ezin da kotxe hori alokatu");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public void kotxeaItzuli(String pKodea,String pMatrikula,java.util.Date noizAlokatuDen){
+		this.mySQLKonektatu();
+		try{
+			Statement s = konexioa.createStatement();
+			ResultSet rs= s.executeQuery("select itzuli from alokatu,kotxe where matrikula='"+pMatrikula+"' and kodea='"+pKodea+"' and egoera='Alokatuta' and noiztik='"+noizAlokatuDen+"';");
+			if(rs.next()){
+				java.util.Date itzuli=rs.getDate(1);
+				Calendar itzuliCalendar=Calendar.getInstance();
+				itzuliCalendar.setTime(itzuli);
+				long diff = Math.abs(Calendar.getInstance().getTimeInMillis()-itzuliCalendar.getTimeInMillis());
+				long diffDays = diff / (24 * 60 * 60 * 1000);
+				if(diffDays>0){
+					ResultSet rs1= s.executeQuery("select prezio from alokatu,kotxe where matrikula='"+pMatrikula+"' and kodea='"+pKodea+"' and egoera='Alokatuta' and noiztik='"+noizAlokatuDen+"';");
+					float kotxePrezioa=rs1.getFloat(1);
+					ResultSet rs2= s.executeQuery("select kreditua from bezeroa where kodea='"+pKodea+"';");
+					float kreditua = rs2.getFloat(1);
+					if ((long)(kreditua)>=(long)(kotxePrezioa*1.5*diffDays)){
+						s.executeUpdate("update kotxe set egoera='Libre' where matrikula='"+pMatrikula+"';");
+						s.executeUpdate("update bezeroa set kreditua=kreditua-"+kreditua+";");
+					}
+					else{
+						new KrediturikGabe(pKodea).main(pKodea);
+					}
+				}
+				ResultSet rs3= s.executeQuery("select KarbKop from alokatu,kotxe where matrikula='"+pMatrikula+"' and kodea='"+pKodea+"' and egoera='Alokatuta' and noiztik='"+noizAlokatuDen+"';");
+				float karbKop = rs3.getFloat(1);
+			}
+		}
+		catch(Exception e){
+			
+		}
+	}
+
 	
 	
 }

@@ -12,6 +12,11 @@ import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
+import admin.AdminLeihoa;
+import bezeroa.BezeroLeihoa;
+import kodea.MySQL;
+
 import javax.swing.JLabel;
 
 public class Login {
@@ -20,6 +25,7 @@ public class Login {
 	private final Action action = new SwingAction();
 	private JTextField textField;
 	private JTextField textField_1;
+
 
 	/**
 	 * Launch the application.
@@ -114,7 +120,12 @@ public class Login {
 		public void actionPerformed(ActionEvent e) {
 			String erabiltzaile = textField.getText();
 			String pasahitza = textField_1.getText();
-			System.out.println(erabiltzaile +" "+pasahitza);
+			if(erabiltzaile.equals("admin") && pasahitza.equals("admin")){
+				new AdminLeihoa().main(null);
+			}
+			else if(MySQL.getMySQL().loginKonprobaketa(erabiltzaile,pasahitza)){
+				new BezeroLeihoa(erabiltzaile).main(erabiltzaile);
+			}
 		}
 	}
 }

@@ -15,7 +15,7 @@ import javax.swing.Action;
 
 public class BezeroBerria {
 
-	private JFrame frame;
+	private JFrame frmBezeroBerria;
 	private JTextField textField;
 	private JTextField textField_1;
 	private final Action action = new SwingAction();
@@ -28,7 +28,7 @@ public class BezeroBerria {
 			public void run() {
 				try {
 					BezeroBerria window = new BezeroBerria();
-					window.frame.setVisible(true);
+					window.frmBezeroBerria.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -47,12 +47,13 @@ public class BezeroBerria {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 460, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmBezeroBerria = new JFrame();
+		frmBezeroBerria.setTitle("Bezero berria ");
+		frmBezeroBerria.setBounds(100, 100, 460, 270);
+		frmBezeroBerria.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		frmBezeroBerria.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		textField = new JTextField();
@@ -85,6 +86,7 @@ public class BezeroBerria {
 		}
 		public void actionPerformed(ActionEvent e) {
 			MySQL.getMySQL().bezeroBerria(textField.getText(),textField_1.getText());
+			frmBezeroBerria.dispose();
 		}
 	}
 }
