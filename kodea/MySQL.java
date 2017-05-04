@@ -287,8 +287,19 @@ public class MySQL {
 						new KrediturikGabe(pKodea).main(pKodea);
 					}
 				}
-				ResultSet rs3= s.executeQuery("select KarbKop from alokatu,kotxe where matrikula='"+pMatrikula+"' and kodea='"+pKodea+"' and egoera='Alokatuta' and noiztik='"+noizAlokatuDen+"';");
+				ResultSet rs3= s.executeQuery("select KarbKop,egunak from alokatu,kotxe where matrikula='"+pMatrikula+"' and kodea='"+pKodea+"' and egoera='Alokatuta' and noiztik='"+noizAlokatuDen+"';");
 				float karbKop = rs3.getFloat(1);
+				float egunak=(float)rs3.getInt(2)+(float)diffDays;
+				karbKop=karbKop-10*egunak;
+				if(karbKop<=0){
+					ResutSet rs4=s.executeQuery("select prezio from kotxe natural join karbMota where matrikula='"+pMatrikula+"';");
+					if(rs.getFloat(1)*10>kreditua){
+						new KrediturikGabe(pKodea).main(pKodea);
+					}
+					
+				}
+				
+				
 			}
 		}
 		catch(Exception e){
