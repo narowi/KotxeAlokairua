@@ -140,8 +140,8 @@ public class MySQL {
 			ResultSet rs = s.executeQuery ("select * from kotxe where karbKop<DeposTam*0.20;");
 			while(rs.next()){
 				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getFloat(3)+" "+rs.getString(4)+" "+rs.getInt(5)+" "+rs.getDate(6)+" "+rs.getFloat(7)+" "+rs.getFloat(8)+" "+rs.getString(9)+" "+rs.getString(10));
-				DatubaseaInprimatu datuBase=new DatubaseaInprimatu();
-				datuBase.sartu(rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10));
+				
+				new DatubaseaInprimatu((rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10))).main((rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10)));				
 			}
 			
 		}
@@ -292,7 +292,9 @@ public class MySQL {
 				float egunak=(float)rs3.getInt(2)+(float)diffDays;
 				karbKop=karbKop-10*egunak;
 				if(karbKop<=0){
-					ResutSet rs4=s.executeQuery("select prezio from kotxe natural join karbMota where matrikula='"+pMatrikula+"';");
+					ResultSet rs2= s.executeQuery("select kreditua from bezeroa where kodea='"+pKodea+"';");
+					float kreditua = rs2.getFloat(1);
+					ResultSet rs4=s.executeQuery("select prezio from kotxe natural join karbMota where matrikula='"+pMatrikula+"';");
 					if(rs.getFloat(1)*10>kreditua){
 						new KrediturikGabe(pKodea).main(pKodea);
 					}
