@@ -298,17 +298,22 @@ public class MySQL {
 					if(rs.getFloat(1)*10>kreditua){
 						new KrediturikGabe(pKodea).main(pKodea);
 					}
-					
 				}
-				
-				
 			}
 		}
 		catch(Exception e){
-			
+			e.printStackTrace();
 		}
 	}
+	/*public void bezeroaSistematikBota(String pKodea){
+		this.mySQLKonektatu();
+		try{
+			Statement s = konexioa.createStatement();
+			s.executeUpdate("delete from bezeroa where kodea='"+pKodea+"';");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}*/
 
-	
-	
 }

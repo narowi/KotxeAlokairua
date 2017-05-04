@@ -3,21 +3,28 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ButtonGroup;
 import javax.swing.AbstractAction;
+
 import java.awt.event.ActionEvent;
+
 import javax.swing.Action;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import Gonbidatua.GonbidatuLehioa;
 import kodea.Kotxe;
 
 public class Hasiera {
@@ -134,8 +141,7 @@ public class Hasiera {
 				new Login().main(null);
 			}
 			else if(aukera==2){
-				Kotxe k=new Kotxe();
-				k.prueba();
+				new GonbidatuLehioa().main(null);
 			}
 		}
 	}

@@ -96,7 +96,8 @@ public class KrediturikGabe {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			MySQL.getMySQL().bezeroEgoeraAldatu(kodea);//por ahroa lo damos de baja no hay metodo para sacarlo de sistema
+			MySQL.getMySQL().bezeroEgoeraAldatu(kodea);
+			//MySQL.getMySQL().bezeroaSistematikBota(kodea);
 			frame.dispose();
 		}
 	}
