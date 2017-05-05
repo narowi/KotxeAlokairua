@@ -51,7 +51,7 @@ public class KotxeaAlokatu {
 	 */
 	private void initialize(String args) {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 367, 199);
+		frame.setBounds(600, 100, 367, 199);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();

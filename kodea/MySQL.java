@@ -64,9 +64,12 @@ public class MySQL {
 			java.util.Date d=new java.util.Date();
 			if (!rs.next()){
 				s.executeUpdate("insert into Bezeroa (kodea, pasahitza, noiztik, kreditua, egoera) values ('"+pKodea+"','"+pPasahitza+"','"+new java.sql.Date(d.getTime())+"',0.0,'Alta');");
+				String mezua="   Bezeroa ondo gehitu da.";
+				new ErroreMezua(mezua).main(mezua);
 			}
 			else{
-				new ErroreMezua("Bezeroa sortua dago jadanik");
+				String mezua="    Bezeroa sortua dago jadanik.";
+				new ErroreMezua(mezua).main(mezua);
 			}
 		}
 		catch(Exception e){
@@ -87,9 +90,10 @@ public class MySQL {
 				else{
 					s.executeUpdate("update Bezeroa set Egoera='Alta' where kodea='" +pKodea+"';");
 				}
+				new ErroreMezua("    Egoera aldatu da.").main("    Egoera aldatu da.");
 			}
 			else{
-				new ErroreMezua("Ez dago bezero hori");
+				new ErroreMezua("    Ez dago bezero hori.").main("    Ez dago bezero hori.");
 			}
 		}
 		catch(Exception e){
@@ -106,11 +110,11 @@ public class MySQL {
 				s.executeUpdate("insert into kotxe values ('"+pMatrikula+"','"+pMarka+"',"+prezioa+",'Libre',"+pAteKopurua+",'"+new java.sql.Date(d.getTime())+"',"+pDeposituTam+","+pDeposituTam+",'"+pKarbuMota+"','"+aireEgokitua+"');");
 			}
 			else{
-				new ErroreMezua("Kotxea sortua dago jadanik");
+				new ErroreMezua("    Kotxea sortua dago jadanik.").main("    Kotxea sortua dago jadanik.");;
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			new ErroreMezua("     Datuak falta zaizkizu.").main("     Datuak falta zaizkizu.");
 		}
 	}
 	public void kotxeBajaEman(String pMatrikula){
@@ -122,13 +126,15 @@ public class MySQL {
 				String egoera=rs.getString(1);
 				if(egoera.equals("Libre")){
 					s.executeUpdate("delete from kotxe where matrikula='"+pMatrikula+"';");
+					new ErroreMezua("    Kotxeari baja ondo eman zaio.").main("    Kotxeari baja ondo eman zaio.");
 				}
 				else if(egoera.equals("Alokatuta")){
 					s.executeUpdate("update kotxe set Egoera='Deskatalogatuta' where matrikula='" +pMatrikula+"';");
+					new ErroreMezua("    Kotxeari baja ondo eman zaio.").main("    Kotxeari baja ondo eman zaio.");
 				}
 			}
 			else{
-				new ErroreMezua("Ez dago kotxe hori");
+				new ErroreMezua("     Ez dago kotxe hori").main("     Ez dago kotxe hori");
 			}
 		}
 		catch(Exception e){
@@ -163,9 +169,10 @@ public class MySQL {
 			ResultSet rs = s.executeQuery ("select deposTam from kotxe where matrikula='" +pMatrikula+"';");
 			if(rs.next()){
 				s.executeUpdate("update kotxe set karbKop="+rs.getFloat(1)+"where matrikula='"+pMatrikula+"';");
+				new ErroreMezua("    Kotxea gasolindegira eraman da.").main("    Kotxea gasolindegira eraman da");
 			}
 			else{
-				new ErroreMezua("Ez dago kotxe hori");
+				new ErroreMezua("    Ez dago kotxe hori").main("    Ez dago kotxe hori");
 			}
 			
 		}
@@ -174,33 +181,35 @@ public class MySQL {
 		}
 	}
 	public void bezeroDatuakAldatu(String pKodea , String pPasahitza, String pIzena, String pAbizena, String pHelb ){
-		this.mySQLKonektatu();
-		try{
-			Statement s = konexioa.createStatement(); 
-			ResultSet rs = s.executeQuery ("select * from Bezeroa where kodea='" +pKodea+"';");
-			if (rs.next()){
-				if(pPasahitza==null){
-					pPasahitza=s.executeQuery("select pasahitza from Bezeroa where kodea='" +pKodea+"';").getString(1);
-				}
-				if(pIzena==null){
-					pIzena=s.executeQuery("select izena from Bezeroa where kodea='" +pKodea+"';").getString(1);
-				}
-				if(pAbizena==null){
-					pAbizena=s.executeQuery("select abizena from Bezeroa where kodea='" +pKodea+"';").getString(1);
-				}
-				if(pHelb==null){
-					pHelb=s.executeQuery("select helbidea from Bezeroa where kodea='" +pKodea+"';").getString(1);
-				}
-				s.executeUpdate("update Bezeroa set pasahitza='"+pPasahitza+"',izena='"+pIzena+"',abizena='"+pAbizena+"',helbidea='"+pHelb+"' where kodea='" +pKodea+"';");
-			}
-			else{
-				new ErroreMezua("Ez dago bezero hori");
-			}
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-	}
+		  this.mySQLKonektatu();
+		  try{
+		   Statement s = konexioa.createStatement(); 
+		   ResultSet rs = s.executeQuery ("select * from Bezeroa where kodea='" +pKodea+"';");
+		   if (rs.next()){
+			    if(pPasahitza==null){
+			     pPasahitza=s.executeQuery("select pasahitza from Bezeroa where kodea='" +pKodea+"';").getString(1);
+			    }
+			    if(pIzena==null){
+			     pIzena=s.executeQuery("select izena from Bezeroa where kodea='" +pKodea+"';").getString(1);
+			    }
+			    if(pAbizena==null){
+			     pAbizena=s.executeQuery("select abizena from Bezeroa where kodea='" +pKodea+"';").getString(1);
+			    }
+			    if(pHelb==null){
+			     pHelb=s.executeQuery("select helbidea from Bezeroa where kodea='" +pKodea+"';").getString(1);
+			    }
+			    s.executeUpdate("update Bezeroa set pasahitza='"+pPasahitza+"',izena='"+pIzena+"',abizena='"+pAbizena+"',helbidea='"+pHelb+"' where kodea='" +pKodea+"';");
+			    new ErroreMezua("    Ondo egin da aldaketa").main("    Ondo egin da aldaketa");
+		   }
+		   	
+		   else{
+		    new ErroreMezua("Ez dago bezero hori");
+		   }
+		  }
+		  catch(Exception e){
+		   e.printStackTrace();
+		  }
+		 }
 	public void bezeroKredituaGehitu(String pKodea,Float pKreditua){
 		this.mySQLKonektatu();
 		try{
@@ -209,7 +218,7 @@ public class MySQL {
 			if (rs.next()){
 				float kreditua=rs.getFloat(1)+pKreditua;
 				s.executeUpdate("update Bezeroa set kreditua="+kreditua+" where kodea='" +pKodea+"';");
-
+				new ErroreMezua("    Kreditua gehitu da.").main("    Kreditua gehitu da.");;
 			}
 			else{
 				new ErroreMezua("Ez dago bezero hori");
@@ -236,11 +245,12 @@ public class MySQL {
 			if (pLitro*prezioa<=kreditua){
 				this.kotxeaGasolindegiraEraman(matrikula);
 				kreditua=kreditua-pLitro*prezioa;
-				s.executeUpdate("update Kotxe set kreditua="+kreditua+" where kodea='" +pKodea+"';");
-				}
+				s.executeUpdate("update Bezeroa set kreditua="+kreditua+" where kodea='" +pKodea+"';");
+				new ErroreMezua("   Eraman da gasolindegira").main("   Eraman da gasolindegira");;	
+			}
 				
 			else{
-				new ErroreMezua("Ez dago kreditu nahikorik hori egiteko");
+				new ErroreMezua("   Ez dago kreditu nahikorik hori egiteko").main("   Ez dago kreditu nahikorik hori egiteko");
 			}
 	}
 		catch(Exception e){
@@ -305,6 +315,9 @@ public class MySQL {
 					if(rs.getFloat(1)*10>kreditua){
 						new KrediturikGabe(pKodea).main(pKodea);
 					}
+					else{
+						s.executeUpdate("update bezeroa set kreditua=kreditua-"+kreditua+";");
+					}
 				}
 			}
 		}
@@ -345,7 +358,7 @@ public class MySQL {
 		ArrayList <String> kotxeak=new ArrayList<String>();
 		try{
 			Statement s = konexioa.createStatement(); 
-			ResultSet rs = s.executeQuery ("select * from kotxe where sarData>= " + dAste + ";");
+			ResultSet rs = s.executeQuery ("select * from kotxe where sarData>= '" + new java.sql.Date(dAste.getTime()) + "';");
 			while(rs.next()){
 				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getFloat(3)+" "+rs.getString(4)+" "+rs.getInt(5)+" "+rs.getDate(6)+" "+rs.getFloat(7)+" "+rs.getFloat(8)+" "+rs.getString(9)+" "+rs.getString(10));
 				
@@ -358,6 +371,27 @@ public class MySQL {
 			e.printStackTrace();
 		}
 		new KarburanteGutxi(kotxeak).main(kotxeak);
+	}
+	public void moroso(String pKodea){
+		this.mySQLKonektatu();
+		try{
+			Statement s = konexioa.createStatement(); 
+			ResultSet rs = s.executeQuery ("select Egoera from Bezeroa where kodea='" +pKodea+"';");
+			if (rs.next()){
+				String egoera=rs.getString(1);
+				
+					s.executeUpdate("update Bezeroa set Egoera='Baja' where kodea='" +pKodea+"';");
+				
+					s.executeUpdate("update Bezeroa set Kreditua=-666 where kodea='" +pKodea+"';");
+				
+			}
+			else{
+				new ErroreMezua("Ez dago bezero hori");
+			}
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 }

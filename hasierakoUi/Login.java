@@ -126,6 +126,11 @@ public class Login {
 			else if(MySQL.getMySQL().loginKonprobaketa(erabiltzaile,pasahitza)){
 				new BezeroLeihoa(erabiltzaile).main(erabiltzaile);
 			}
+			else{
+				String mezua="    Erabiltzaile edo pasahitz okerra, saiatu berriro.";
+				new ErroreMezua(mezua).main(mezua);
+			}
+			frame.dispose();
 		}
 	}
 }

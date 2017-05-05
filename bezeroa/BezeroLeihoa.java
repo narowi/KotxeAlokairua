@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
-
+import hasierakoUi.*;
 public class BezeroLeihoa {
 
 	private JFrame frmBezeroarenLeihoa;
@@ -20,6 +20,7 @@ public class BezeroLeihoa {
 	private String kodea;
 	private final Action action_1 = new SwingAction_1();
 	private final Action action_2 = new SwingAction_2();
+	private final Action action_3 = new SwingAction_3();
 
 	/**
 	 * Launch the application.
@@ -80,6 +81,11 @@ public class BezeroLeihoa {
 		btnKotxeaItzuli.setBounds(45, 186, 209, 25);
 		panel.add(btnKotxeaItzuli);
 		
+		JButton btnItzuli = new JButton("Itzuli");
+		btnItzuli.setAction(action_3);
+		btnItzuli.setBounds(221, 224, 97, 25);
+		panel.add(btnItzuli);
+		
 		this.kodea=pKodea;
 	}
 
@@ -89,6 +95,7 @@ public class BezeroLeihoa {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
+			new ErroreMezua("    gelaxka guztiak bete").main("    gelaxka guztiak bete");
 			new DatuPertsonalakSartu_Aldatu(kodea).main(kodea);
 		}
 	}
@@ -108,6 +115,17 @@ public class BezeroLeihoa {
 		}
 		public void actionPerformed(ActionEvent e) {
 			new KotxeaAlokatu(kodea).main(kodea);
+			MySQL.getMySQL().kotxeakImprimatu();
+			
+		}
+	}
+	private class SwingAction_3 extends AbstractAction {
+		public SwingAction_3() {
+			putValue(NAME, "Itzuli");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			new Hasiera().main(null);
 		}
 	}
 }

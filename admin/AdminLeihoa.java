@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-
+import hasierakoUi.*;
 public class AdminLeihoa {
 
 	private JFrame frmAdministratzaileLeihoa;
@@ -22,6 +22,7 @@ public class AdminLeihoa {
 	private final Action action_3 = new SwingAction_3();
 	private final Action action_4 = new SwingAction_4();
 	private final Action action_5 = new SwingAction_5();
+	private final Action action_6 = new SwingAction_6();
 
 	/**
 	 * Launch the application.
@@ -52,7 +53,7 @@ public class AdminLeihoa {
 	private void initialize() {
 		frmAdministratzaileLeihoa = new JFrame();
 		frmAdministratzaileLeihoa.setTitle("Administratzaile leihoa");
-		frmAdministratzaileLeihoa.setBounds(100, 100, 550, 270);
+		frmAdministratzaileLeihoa.setBounds(100, 100, 550, 375);
 		frmAdministratzaileLeihoa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -93,6 +94,11 @@ public class AdminLeihoa {
 		btnNewButton_5.setAction(action_5);
 		btnNewButton_5.setBounds(292, 170, 214, 25);
 		panel.add(btnNewButton_5);
+		
+		JButton btnIrten = new JButton("Irten");
+		btnIrten.setAction(action_6);
+		btnIrten.setBounds(409, 261, 97, 25);
+		panel.add(btnIrten);
 	}
 
 	private class SwingAction extends AbstractAction {
@@ -147,6 +153,16 @@ public class AdminLeihoa {
 		}
 		public void actionPerformed(ActionEvent e) {
 			new KotxeaGasolindegiraEraman().main(null);
+		}
+	}
+	private class SwingAction_6 extends AbstractAction {
+		public SwingAction_6() {
+			putValue(NAME, "Irten");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			new Hasiera().main(null);
+			frmAdministratzaileLeihoa.dispose();
 		}
 	}
 }

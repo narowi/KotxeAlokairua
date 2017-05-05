@@ -8,11 +8,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import javax.swing.JTextArea;
+import javax.swing.JButton;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
 
 public class KarburanteGutxi {
 
 	private JFrame frmKatalogoaBilaketarenArabera;
 	JTextArea textArea;
+	private JButton btnListo;
+	private final Action action = new SwingAction();
 
 	/**
 	 * Launch the application.
@@ -52,8 +58,13 @@ public class KarburanteGutxi {
 		
 		textArea = new JTextArea();
 		textArea.setEditable(false);
-		textArea.setBounds(12, 13, 463, 359);
+		textArea.setBounds(12, 13, 463, 314);
 		panel.add(textArea);
+		
+		btnListo = new JButton("Listo");
+		btnListo.setAction(action);
+		btnListo.setBounds(345, 347, 97, 25);
+		panel.add(btnListo);
 		idatzi(args);
 		
 	}
@@ -66,4 +77,13 @@ public class KarburanteGutxi {
 		}
 	}
 
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "Listo");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			frmKatalogoaBilaketarenArabera.dispose();
+		}
+	}
 }
