@@ -1,8 +1,10 @@
 package kodea;
 import java.sql.*;
+
 import java.util.Calendar;
 
 import admin.DatubaseaInprimatu;
+import admin.KarburanteGutxi;
 import bezeroa.KrediturikGabe;
 import hasierakoUi.ErroreMezua;
 
@@ -135,19 +137,24 @@ public class MySQL {
 	}
 	public void karburanteGutxikoKotxeak(){
 		this.mySQLKonektatu();
+		ArrayList <String> kotxeak=new ArrayList<String>();
 		try{
 			Statement s = konexioa.createStatement(); 
 			ResultSet rs = s.executeQuery ("select * from kotxe where karbKop<DeposTam*0.20;");
+			//KatalogoaIkusi kat= new KatalogoaIkusi(kotxeak);
+			//kat.main(null);
 			while(rs.next()){
 				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getFloat(3)+" "+rs.getString(4)+" "+rs.getInt(5)+" "+rs.getDate(6)+" "+rs.getFloat(7)+" "+rs.getFloat(8)+" "+rs.getString(9)+" "+rs.getString(10));
 				
-				new DatubaseaInprimatu((rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10))).main((rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10)));				
+				kotxeak.add((rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10)));				
+			
 			}
 			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
+		new KarburanteGutxi(kotxeak).main(kotxeak);
 	}
 	public void kotxeaGasolindegiraEraman(String pMatrikula){
 		this.mySQLKonektatu();
@@ -305,15 +312,52 @@ public class MySQL {
 			e.printStackTrace();
 		}
 	}
-	/*public void bezeroaSistematikBota(String pKodea){
+
+	public void kotxeakImprimatu(){
 		this.mySQLKonektatu();
+		ArrayList <String> kotxeak=new ArrayList<String>();
 		try{
-			Statement s = konexioa.createStatement();
-			s.executeUpdate("delete from bezeroa where kodea='"+pKodea+"';");
+			Statement s = konexioa.createStatement(); 
+			ResultSet rs = s.executeQuery ("select * from kotxe ");
+			//KatalogoaIkusi kat= new KatalogoaIkusi(kotxeak);
+			//kat.main(null);
+			while(rs.next()){
+				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getFloat(3)+" "+rs.getString(4)+" "+rs.getInt(5)+" "+rs.getDate(6)+" "+rs.getFloat(7)+" "+rs.getFloat(8)+" "+rs.getString(9)+" "+rs.getString(10));
+				
+				kotxeak.add((rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10)));				
+			
+			}
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
-	}*/
+		new KarburanteGutxi(kotxeak).main(kotxeak);
+	}
+	
+	public void astekoKotxeak(){
+		this.mySQLKonektatu();
+		java.util.Date d=new java.util.Date();
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(d);
+		calendar.add(calendar.DAY_OF_YEAR, -7);
+		java.util.Date dAste=calendar.getTime();
+		ArrayList <String> kotxeak=new ArrayList<String>();
+		try{
+			Statement s = konexioa.createStatement(); 
+			ResultSet rs = s.executeQuery ("select * from kotxe where sarData>= " + dAste + ";");
+			while(rs.next()){
+				System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getFloat(3)+" "+rs.getString(4)+" "+rs.getInt(5)+" "+rs.getDate(6)+" "+rs.getFloat(7)+" "+rs.getFloat(8)+" "+rs.getString(9)+" "+rs.getString(10));
+				
+				kotxeak.add((rs.getString(1)+"    "+rs.getString(2)+"    "+rs.getFloat(3)+"    "+rs.getString(4)+"    "+rs.getInt(5)+"    "+rs.getDate(6)+"    "+rs.getFloat(7)+"    "+rs.getFloat(8)+"    "+rs.getString(9)+"    "+rs.getString(10)));				
+			
+			}
+			
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		new KarburanteGutxi(kotxeak).main(kotxeak);
+	}
 
 }

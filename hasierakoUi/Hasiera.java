@@ -24,7 +24,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import Gonbidatua.GonbidatuLehioa;
+import gonbidatua.*;
 import kodea.Kotxe;
 
 public class Hasiera {

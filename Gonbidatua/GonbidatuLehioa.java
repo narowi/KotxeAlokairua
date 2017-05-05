@@ -1,4 +1,4 @@
-package Gonbidatua;
+package gonbidatua;
 
 import java.awt.EventQueue;
 
@@ -53,7 +53,7 @@ public class GonbidatuLehioa {
 	private void initialize() {
 		frmGonbidatuLehioa = new JFrame();
 		frmGonbidatuLehioa.setTitle("Gonbidatu Lehioa");
-		frmGonbidatuLehioa.setBounds(100, 100, 450, 300);
+		frmGonbidatuLehioa.setBounds(100, 100, 382, 219);
 		frmGonbidatuLehioa.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -62,12 +62,12 @@ public class GonbidatuLehioa {
 		
 		JButton btnNewButton = new JButton("Bezeroaren egoera aldatu");
 		btnNewButton.setAction(action);
-		btnNewButton.setBounds(292, 50, 214, 25);
+		btnNewButton.setBounds(85, 37, 214, 25);
 		panel.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("Kotxe berria sartu");
 		btnNewButton_1.setAction(action_1);
-		btnNewButton_1.setBounds(36, 110, 226, 25);
+		btnNewButton_1.setBounds(85, 96, 214, 25);
 		panel.add(btnNewButton_1);
 	}
 	
@@ -77,7 +77,7 @@ public class GonbidatuLehioa {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			new KatalogoaIkusi().main(null);
+			MySQL.getMySQL().kotxeakImprimatu();
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class GonbidatuLehioa {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			new KotxeBerriakIkusi().main(null);
+			MySQL.getMySQL().astekoKotxeak();
 		}
 	}
 
